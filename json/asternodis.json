@@ -1,0 +1,60 @@
+{
+  "name": "Asternodis",
+  "slug": "asternodis",
+  "categories": [
+    7
+  ],
+  "date_created": "2026-09-25",
+  "type": "ct",
+  "updateable": true,
+  "privileged": false,
+  "architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "interface_port": 443,
+  "documentation": "https://asternodis.com/docs",
+  "website": "https://asternodis.com/",
+  "logo": "https://asternodis.com/asternodis-mark.svg",
+  "description": "Asternodis is disaster recovery for Proxmox VE: near-continuous replication of VMs and LXC containers to a second site, non-disruptive DR testing in an isolated network, recovery plans with boot ordering, and one-click failover and failback. It works on any storage backend, including LVM-thin and directory storage that Proxmox cannot natively replicate. Replication runs directly between your two sites over a mutually authenticated channel - no VPN required and no data passes through a third party.",
+  "install_methods": [
+    {
+      "type": "default",
+      "script": "ct/asternodis.sh",
+      "config_path": "/var/lib/asternodis",
+      "resources": {
+        "cpu": 2,
+        "ram": 2048,
+        "hdd": 8,
+        "os": "Debian",
+        "version": "12"
+      }
+    }
+  ],
+  "default_credentials": {
+    "username": null,
+    "password": null
+  },
+  "notes": [
+    {
+      "text": "The web UI is HTTPS on port 443 with a self-signed certificate generated on first run, so expect a browser warning. You set the admin password during first-run setup.",
+      "type": "info"
+    },
+    {
+      "text": "This installs ONE controller. Disaster recovery needs a controller at each site - run this script at your recovery site as well, then pair the two. A single install can evaluate the product but cannot protect anything on its own.",
+      "type": "warning"
+    },
+    {
+      "text": "The controller manages Proxmox over the API and over SSH; it does not run replication itself, so it stays small. It needs network reachability to the nodes it protects and to the controller at the other site.",
+      "type": "info"
+    },
+    {
+      "text": "Commercial software with a free 14-day full-feature trial. A non-commercial Home Lab licence is 99 USD per year per DR Site Pair with no node limit; business licensing starts at 995 USD per year. Failover, failback and abort keep working even if a licence lapses, so licensing can never block a recovery.",
+      "type": "info"
+    },
+    {
+      "text": "/var/lib/asternodis holds the controller database, its encryption key and its peer identity. Back it up - 'asternodis backup' writes a restorable copy - and note that anything able to read it can impersonate this site to its pair.",
+      "type": "info"
+    }
+  ]
+}
